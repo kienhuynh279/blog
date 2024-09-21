@@ -1,7 +1,11 @@
-import { metadata } from '@/configs/metadata/defaults';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Inter } from 'next/font/google';
 import type { ReactNodeLike } from 'prop-types';
-import './globals.css';
+import { Toaster } from 'react-hot-toast';
+
+import { metadata } from '@/configs/metadata/defaults';
+import { ThemeWrapper } from '@/configs/theme-wrapper';
+import ReactQueryProviders from '@/libs/react-query-provider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -16,7 +20,20 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <body className={inter.className}>
-        <>{children}</>
+        <ReactQueryProviders>
+          <ThemeWrapper>{children}</ThemeWrapper>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </ReactQueryProviders>
+
+        <Toaster
+          containerStyle={{ zIndex: 99999 }}
+          toastOptions={{
+            style: {
+              background: '#303641',
+              color: '#fff',
+            },
+          }}
+        />
       </body>
     </html>
   );
